@@ -116,9 +116,16 @@
   .pillars{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
   @media(max-width:900px){ .pillars{grid-template-columns:1fr 1fr;} }
   @media(max-width:560px){ .pillars{grid-template-columns:1fr;} }
-  .pillar{background:var(--card); padding:30px 24px 26px; position:relative;}
-  .pillar .pin2{position:absolute; top:-5px; left:24px; width:7px; height:7px; border-radius:50%; background:var(--signal);}
+  .pillar{background:var(--card); padding:0 0 26px; position:relative;}
+  .pillar .pin2{position:absolute; top:-5px; left:24px; width:7px; height:7px; border-radius:50%; background:var(--signal); z-index:2;}
   @media(max-width:900px){ .pin2{display:none;} }
+  .pillar .media{position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; background:var(--bronze-dim);}
+  .pillar .media img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease;}
+  .pillar:hover .media img{transform:scale(1.045);}
+  .pillar .media.placeholder{display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;}
+  .pillar .media.placeholder .ph-icon{width:26px; height:26px; border-radius:50%; border:1.5px dashed var(--ink-faint);}
+  .pillar .media.placeholder span{font-size:11.5px; color:var(--ink-faint); font-weight:500; letter-spacing:0.02em;}
+  .pillar .body{padding:22px 24px 0;}
   .pillar .idx{font-size:11.5px; color:var(--ink-faint); font-weight:600; letter-spacing:0.04em; margin-bottom:18px;}
   .pillar h4{font-size:17px; font-weight:600; margin-bottom:9px; letter-spacing:-0.01em;}
   .pillar p{font-size:13.6px; color:var(--ink-soft); margin-bottom:18px;}
@@ -224,31 +231,52 @@
     <div class="pillars" data-reveal>
       <div class="pillar">
         <div class="pin2"></div>
-        <div class="idx">01 — TỔNG HỢP</div>
-        <h4>Xe Tổng Hợp</h4>
-        <p>Đa thương hiệu xe đạp &amp; xe đạp điện: Asama, DK Bike, Osakar, Martin, Giant.</p>
-        <div class="meta">6 thương hiệu →</div>
+        <div class="media">
+          <img src="/images/xe-tong-hop.webp" alt="Cửa hàng Osakar Khánh Huyền" loading="lazy" width="900" height="591">
+        </div>
+        <div class="body">
+          <div class="idx">01 — TỔNG HỢP</div>
+          <h4>Xe Tổng Hợp</h4>
+          <p>Đa thương hiệu xe đạp &amp; xe đạp điện: Asama, DK Bike, Osakar, Martin, Giant.</p>
+          <div class="meta">6 thương hiệu →</div>
+        </div>
       </div>
       <div class="pillar">
         <div class="pin2"></div>
-        <div class="idx">02 — SHOWROOM</div>
-        <h4>Showroom VinFast</h4>
-        <p>Đại lý ủy quyền xe máy điện VinFast tại Quốc Lộ 13 — tư vấn, trải nghiệm, giao xe.</p>
-        <div class="meta">Đại lý chính hãng →</div>
+        <div class="media">
+          <img src="/images/showroom-vinfast.webp" alt="Showroom VinFast Khánh Huyền" loading="lazy" width="900" height="676">
+        </div>
+        <div class="body">
+          <div class="idx">02 — SHOWROOM</div>
+          <h4>Showroom VinFast</h4>
+          <p>Đại lý ủy quyền xe máy điện VinFast tại Quốc Lộ 13 — tư vấn, trải nghiệm, giao xe.</p>
+          <div class="meta">Đại lý chính hãng →</div>
+        </div>
       </div>
       <div class="pillar">
         <div class="pin2"></div>
-        <div class="idx">03 — DỊCH VỤ</div>
-        <h4>Xưởng Dịch Vụ</h4>
-        <p>Bảo hành, bảo dưỡng ô tô điện &amp; xe máy điện VinFast — chuẩn kỹ thuật hãng.</p>
-        <div class="meta">Chuẩn kỹ thuật VinFast →</div>
+        <div class="media">
+          <img src="/images/xuong-dich-vu.webp" alt="Xưởng Dịch Vụ VinFast Khánh Huyền" loading="lazy" width="900" height="675">
+        </div>
+        <div class="body">
+          <div class="idx">03 — DỊCH VỤ</div>
+          <h4>Xưởng Dịch Vụ</h4>
+          <p>Bảo hành, bảo dưỡng ô tô điện &amp; xe máy điện VinFast — chuẩn kỹ thuật hãng.</p>
+          <div class="meta">Chuẩn kỹ thuật VinFast →</div>
+        </div>
       </div>
       <div class="pillar">
         <div class="pin2"></div>
-        <div class="idx">04 — SẢN XUẤT</div>
-        <h4>Sản Xuất Xe Điện</h4>
-        <p>Thương hiệu K LOTUS tự sản xuất, lắp ráp — làm chủ chuỗi cung ứng.</p>
-        <div class="meta">Tự chủ sản xuất →</div>
+        <div class="media placeholder">
+          <div class="ph-icon"></div>
+          <span>Hình ảnh đang cập nhật</span>
+        </div>
+        <div class="body">
+          <div class="idx">04 — SẢN XUẤT</div>
+          <h4>Sản Xuất Xe Điện</h4>
+          <p>Thương hiệu K LOTUS tự sản xuất, lắp ráp — làm chủ chuỗi cung ứng.</p>
+          <div class="meta">Tự chủ sản xuất →</div>
+        </div>
       </div>
     </div>
   </div>
