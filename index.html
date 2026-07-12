@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khánh Huyền — Một hệ sinh thái, một câu chuyện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF9;
+    --card:#FFFFFF;
+    --ink:#191A17;
+    --ink-soft:#5B5E58;
+    --ink-faint:#9B9D97;
+    --bronze:#A2793E;
+    --bronze-dim:#F1E7D8;
+    --signal:#2D4FD6;
+    --signal-dim:#E3E8FB;
+    --line:rgba(25,26,23,0.09);
+    --line-strong:rgba(25,26,23,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'Be Vietnam Pro', sans-serif; font-weight:400;
+    line-height:1.65; overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){ .wrap{padding:0 22px;} }
+
+  /* NAV */
+  nav{position:sticky; top:0; z-index:60; background:rgba(250,249,249,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:74px;}
+  .logo{font-weight:600; font-size:18px; letter-spacing:-0.01em; display:flex; align-items:center; gap:9px;}
+  .logo .dot{width:7px; height:7px; border-radius:50%; background:var(--signal);}
+  .navlinks{display:flex; gap:34px; font-size:14px; color:var(--ink-soft); font-weight:400;}
+  .navlinks a:hover{color:var(--ink);}
+  .navcta{border:1px solid var(--ink); color:var(--ink); padding:9px 20px; border-radius:100px; font-size:13.5px; font-weight:500;}
+  .navcta:hover{background:var(--ink); color:var(--paper);}
+  @media(max-width:800px){ .navlinks{display:none;} }
+
+  /* HERO */
+  .hero{padding:130px 0 90px; text-align:center; position:relative;}
+  .hero-eyebrow{font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); font-weight:500; margin-bottom:26px;}
+  .hero h1{
+    font-size:clamp(34px, 5.4vw, 58px); font-weight:300; letter-spacing:-0.02em; line-height:1.18;
+    max-width:760px; margin:0 auto 30px;
+  }
+  .hero h1 b{font-weight:600;}
+  .hero p{font-size:17px; color:var(--ink-soft); max-width:480px; margin:0 auto 50px;}
+  .hero-origin-dot{width:9px; height:9px; border-radius:50%; background:var(--ink-faint); margin:0 auto;}
+
+  /* NARRATIVE SPINE WRAPPER */
+  .story{position:relative;}
+  .chapter-group{position:relative; padding-left:60px;}
+  .chapter-group::before{
+    content:''; position:absolute; left:22px; top:0; bottom:0; width:1.5px;
+    background:var(--rail, var(--line-strong));
+  }
+  .chapter-group.tone-neutral{--rail:var(--line-strong);}
+  .chapter-group.tone-signal{--rail:var(--signal);}
+  @media(max-width:640px){ .chapter-group{padding-left:40px;} .chapter-group::before{left:14px;} }
+
+  .chapter{position:relative; padding:54px 0; max-width:640px;}
+  .chapter .pin{
+    position:absolute; left:-46px; top:58px; width:11px; height:11px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--ink-faint);
+  }
+  .chapter.tone-signal .pin{border-color:var(--signal); background:var(--signal);}
+  .chapter.tone-signal .pin.big{width:16px; height:16px; left:-48.5px; top:54px; box-shadow:0 0 0 6px var(--signal-dim);}
+  @media(max-width:640px){ .chapter .pin{left:-33px;} .chapter.tone-signal .pin.big{left:-35.5px;} }
+
+  .chapter .yr{font-size:13px; font-weight:600; letter-spacing:0.04em; color:var(--ink-faint); margin-bottom:12px;}
+  .chapter.tone-signal .yr{color:var(--signal);}
+  .chapter h3{font-size:22px; font-weight:500; letter-spacing:-0.01em; margin-bottom:10px;}
+  .chapter p{font-size:15.5px; color:var(--ink-soft);}
+  .chapter .stats{display:flex; gap:28px; margin-top:22px; flex-wrap:wrap;}
+  .stat b{display:block; font-size:28px; font-weight:600; letter-spacing:-0.01em;}
+  .stat.signal b{color:var(--signal);}
+  .stat span{font-size:12.5px; color:var(--ink-faint);}
+
+  .chapter.turning{padding:70px 0 60px;}
+  .chapter.turning h3{font-size:26px; font-weight:600;}
+  .chapter.turning .badge{
+    display:inline-block; font-size:12px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--signal); background:var(--signal-dim); padding:6px 14px; border-radius:100px; margin-bottom:16px;
+  }
+
+  /* ECOSYSTEM — branch from spine */
+  section.ecosystem{padding:10px 0 100px; position:relative;}
+  .branch-head{max-width:600px; margin:0 auto 56px; text-align:center;}
+  .branch-head .eyebrow{font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--signal); font-weight:600; margin-bottom:14px;}
+  .branch-head h2{font-size:clamp(26px,3.6vw,34px); font-weight:500; letter-spacing:-0.01em;}
+
+  .branch-rail{position:relative; height:104px; margin:0 auto 0; display:flex; flex-direction:column; align-items:center;}
+  .branch-rail .orbit{width:56px; height:56px; position:relative;}
+  .branch-rail .orbit svg{
+    width:100%; height:100%; display:block;
+    animation:spin 22s linear infinite;
+    will-change:transform;
+    transform:translateZ(0);
+  }
+  .branch-rail .orbit .hub{
+    position:absolute; left:50%; top:50%; width:6px; height:6px; border-radius:50%;
+    background:var(--signal); transform:translate(-50%,-50%);
+  }
+  .branch-rail .bar{position:absolute; left:12.5%; right:12.5%; bottom:0; height:1.5px; background:var(--signal);}
+  @media(max-width:900px){ .branch-rail{display:none;} }
+  @media(prefers-reduced-motion: reduce){ .branch-rail .orbit svg{animation:none;} }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .pillars{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media(max-width:900px){ .pillars{grid-template-columns:1fr 1fr;} }
+  @media(max-width:560px){ .pillars{grid-template-columns:1fr;} }
+  .pillar{background:var(--card); padding:30px 24px 26px; position:relative;}
+  .pillar .pin2{position:absolute; top:-5px; left:24px; width:7px; height:7px; border-radius:50%; background:var(--signal);}
+  @media(max-width:900px){ .pin2{display:none;} }
+  .pillar .idx{font-size:11.5px; color:var(--ink-faint); font-weight:600; letter-spacing:0.04em; margin-bottom:18px;}
+  .pillar h4{font-size:17px; font-weight:600; margin-bottom:9px; letter-spacing:-0.01em;}
+  .pillar p{font-size:13.6px; color:var(--ink-soft); margin-bottom:18px;}
+  .pillar .meta{font-size:12px; color:var(--ink-faint); font-weight:500; padding-top:15px; border-top:1px solid var(--line);}
+  .pillar:hover .meta{color:var(--signal);}
+
+  /* CONVERGE + CTA */
+  .converge{position:relative; height:70px;}
+  .converge .stem{position:absolute; left:50%; top:0; bottom:0; width:1.5px; background:var(--signal); transform:translateX(-50%);}
+  .converge .end{position:absolute; left:50%; bottom:10px; width:9px; height:9px; border-radius:50%; background:var(--signal); transform:translateX(-50%); box-shadow:0 0 0 6px var(--signal-dim);}
+
+  section.cta{padding:0 0 130px; text-align:center;}
+  .cta h2{font-size:clamp(24px,3.4vw,32px); font-weight:500; letter-spacing:-0.01em; max-width:520px; margin:0 auto 30px;}
+  .btn-primary{
+    background:var(--ink); color:var(--paper); font-weight:600; font-size:14.5px;
+    padding:15px 28px; border-radius:100px; display:inline-flex; align-items:center; gap:8px;
+    transition:background .2s;
+  }
+  .btn-primary:hover{background:var(--signal);}
+
+  footer{border-top:1px solid var(--line); padding:34px 0; font-size:13px; color:var(--ink-faint);}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  [data-reveal]{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease;}
+  [data-reveal].in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>KHÁNH HUYỀN</div>
+    <div class="navlinks">
+      <a href="#origin">Câu chuyện</a>
+      <a href="#ecosystem">Hệ sinh thái</a>
+      <a href="#">Sản phẩm</a>
+      <a href="#">Showroom</a>
+    </div>
+    <a href="#" class="navcta">Liên hệ</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Từ 2006 — đến hệ sinh thái xe điện hôm nay</div>
+    <h1>Một <b>hệ sinh thái</b>, bắt đầu từ một <b>cửa hàng nhỏ</b></h1>
+    <p>18 năm, một sợi chỉ xuyên suốt — từ chiếc xe đạp đầu tiên đến bốn mảng kinh doanh của hôm nay.</p>
+    <div class="hero-origin-dot" data-reveal></div>
+  </div>
+</header>
+
+<div class="story wrap" id="origin">
+
+  <div class="chapter-group tone-neutral">
+    <div class="chapter" data-reveal>
+      <div class="pin"></div>
+      <div class="yr">2006</div>
+      <h3>Khởi nguồn từ một cửa hàng xe đạp</h3>
+      <p>Cửa hàng xe đạp Asama Khánh Huyền ra đời tại Dĩ An, Bình Dương — điểm bắt đầu của mọi thứ sau này.</p>
+    </div>
+
+    <div class="chapter" data-reveal>
+      <div class="pin"></div>
+      <div class="yr">2010 — 2020</div>
+      <h3>Mở rộng thành một mạng lưới</h3>
+      <p>Từ 1 cửa hàng thành chuỗi bán lẻ khu vực Đông Nam Bộ, song song ra mắt thương hiệu tự sản xuất KH Bike.</p>
+      <div class="stats">
+        <div class="stat"><b class="counter" data-target="6">0</b><span>chi nhánh bán lẻ</span></div>
+        <div class="stat"><b class="counter" data-target="100" data-suffix="+">0</b><span>đại lý khu vực</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-group tone-signal">
+    <div class="chapter turning" data-reveal>
+      <div class="pin big"></div>
+      <div class="badge">Bước ngoặt</div>
+      <div class="yr">2022</div>
+      <h3>Bắt tay VinFast — hệ sinh thái được điện hóa</h3>
+      <p>Ký hợp đồng phân phối độc quyền xe máy điện VinFast — từ đây, mọi mảng kinh doanh của Khánh Huyền cùng hướng về một hướng: di chuyển xanh.</p>
+    </div>
+  </div>
+
+</div>
+
+<section class="ecosystem" id="ecosystem">
+  <div class="wrap">
+    <div class="branch-head" data-reveal>
+      <div class="eyebrow">Hệ sinh thái hôm nay</div>
+      <h2>Một điểm khởi đầu, bốn mảnh ghép</h2>
+    </div>
+    <div class="branch-rail">
+      <div class="orbit">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <circle cx="28" cy="28" r="24" fill="none" stroke="var(--line-strong)" stroke-width="1.5"/>
+          <circle cx="28" cy="28" r="24" fill="none" stroke="var(--signal)" stroke-width="1.5"
+                  stroke-linecap="round" stroke-dasharray="60 90.8"/>
+        </svg>
+        <div class="hub"></div>
+      </div>
+      <div class="bar"></div>
+    </div>
+    <div class="pillars" data-reveal>
+      <div class="pillar">
+        <div class="pin2"></div>
+        <div class="idx">01 — TỔNG HỢP</div>
+        <h4>Xe Tổng Hợp</h4>
+        <p>Đa thương hiệu xe đạp &amp; xe đạp điện: Asama, DK Bike, Osakar, Martin, Giant.</p>
+        <div class="meta">6 thương hiệu →</div>
+      </div>
+      <div class="pillar">
+        <div class="pin2"></div>
+        <div class="idx">02 — SHOWROOM</div>
+        <h4>Showroom VinFast</h4>
+        <p>Đại lý ủy quyền xe máy điện VinFast tại Quốc Lộ 13 — tư vấn, trải nghiệm, giao xe.</p>
+        <div class="meta">Đại lý chính hãng →</div>
+      </div>
+      <div class="pillar">
+        <div class="pin2"></div>
+        <div class="idx">03 — DỊCH VỤ</div>
+        <h4>Xưởng Dịch Vụ</h4>
+        <p>Bảo hành, bảo dưỡng ô tô điện &amp; xe máy điện VinFast — chuẩn kỹ thuật hãng.</p>
+        <div class="meta">Chuẩn kỹ thuật VinFast →</div>
+      </div>
+      <div class="pillar">
+        <div class="pin2"></div>
+        <div class="idx">04 — SẢN XUẤT</div>
+        <h4>Sản Xuất Xe Điện</h4>
+        <p>Thương hiệu K LOTUS tự sản xuất, lắp ráp — làm chủ chuỗi cung ứng.</p>
+        <div class="meta">Tự chủ sản xuất →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="converge"><div class="stem"></div><div class="end"></div></div>
+</div>
+
+<section class="cta">
+  <div class="wrap">
+    <div data-reveal>
+      <h2>Từ một điểm khởi đầu, đến một lời mời duy nhất — ghé thăm showroom gần bạn.</h2>
+      <a href="#" class="btn-primary">Tìm showroom →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Công ty TNHH TMDV Khánh Huyền</div>
+    <div>Bình Dương · TP.HCM</div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const revealIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealIO.unobserve(e.target); } });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>revealIO.observe(el));
+
+  const counters = document.querySelectorAll('.counter');
+  const countIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseInt(el.dataset.target, 10);
+        const suffix = el.dataset.suffix || '';
+        const dur = 900;
+        const start = performance.now();
+        function tick(now){
+          const p = Math.min((now - start) / dur, 1);
+          const val = Math.round(target * (1 - Math.pow(1 - p, 3)));
+          el.textContent = val + suffix;
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.4});
+  counters.forEach(el=>countIO.observe(el));
+</script>
+
+</body>
+</html>
