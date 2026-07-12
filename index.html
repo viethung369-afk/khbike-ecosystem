@@ -75,10 +75,10 @@
   .brand-item .sep{width:3px; height:3px; border-radius:50%; background:var(--line-strong); flex:none;}
   .brand-item img{
     height:24px; width:auto; display:block;
-    filter:grayscale(1); opacity:.5;
-    transition:filter .25s ease, opacity .25s ease;
+    opacity:.9;
+    transition:opacity .25s ease;
   }
-  .brand-item img:hover{filter:grayscale(0); opacity:1;}
+  .brand-item img:hover{opacity:1;}
   @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
   @media(prefers-reduced-motion: reduce){
     .brand-track{animation:none;}
