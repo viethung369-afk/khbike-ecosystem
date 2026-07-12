@@ -53,7 +53,37 @@
   }
   .hero h1 b{font-weight:600;}
   .hero p{font-size:17px; color:var(--ink-soft); max-width:480px; margin:0 auto 50px;}
-  .hero-origin-dot{width:9px; height:9px; border-radius:50%; background:var(--ink-faint); margin:0 auto;}
+  .hero-origin-dot{width:9px; height:9px; border-radius:50%; background:var(--ink-faint); margin:0 auto 46px;}
+
+  /* BRAND MARQUEE */
+  .brand-marquee{
+    position:relative; max-width:100%; overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+  }
+  .brand-track{
+    display:flex; align-items:center; width:max-content;
+    animation:marquee 30s linear infinite;
+    will-change:transform;
+  }
+  .brand-marquee:hover .brand-track{animation-play-state:paused;}
+  .brand-item{
+    display:flex; align-items:center; gap:22px;
+    font-size:13.5px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase;
+    color:var(--ink-faint); white-space:nowrap; padding:0 22px;
+  }
+  .brand-item .sep{width:3px; height:3px; border-radius:50%; background:var(--line-strong); flex:none;}
+  .brand-item img{
+    height:24px; width:auto; display:block;
+    filter:grayscale(1); opacity:.5;
+    transition:filter .25s ease, opacity .25s ease;
+  }
+  .brand-item img:hover{filter:grayscale(0); opacity:1;}
+  @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  @media(prefers-reduced-motion: reduce){
+    .brand-track{animation:none;}
+    .brand-marquee{-webkit-mask-image:none; mask-image:none; overflow-x:auto;}
+  }
 
   /* NARRATIVE SPINE WRAPPER */
   .story{position:relative;}
@@ -196,6 +226,22 @@
     <h1>Một <b>hệ sinh thái</b>, bắt đầu từ một <b>cửa hàng nhỏ</b></h1>
     <p>18 năm, một sợi chỉ xuyên suốt — từ chiếc xe đạp đầu tiên đến bốn mảng kinh doanh của hôm nay.</p>
     <div class="hero-origin-dot" data-reveal></div>
+    <div class="brand-marquee" data-reveal>
+      <div class="brand-track" id="brandTrack">
+        <div class="brand-item">
+          <img src="/images/brands/03-vinfast.png" alt="VinFast" loading="lazy" width="600" height="240"><span class="sep"></span>
+          <img src="/images/brands/04-greensm.png" alt="Green SM" loading="lazy" width="600" height="240"><span class="sep"></span>
+          <img src="/images/brands/01-klotus.png" alt="K LOTUS" loading="lazy" width="600" height="240"><span class="sep"></span>
+          <img src="/images/brands/02-asama.png" alt="Asama" loading="lazy" width="600" height="240"><span class="sep"></span>
+          <img src="/images/brands/07-dkbike.png" alt="DK Bike" loading="lazy" width="600" height="240"><span class="sep"></span>
+          <span>Osakar</span><span class="sep"></span>
+          <img src="/images/brands/05-martin.png" alt="Martin" loading="lazy" width="600" height="240"><span class="sep"></span>
+          <span>Kaiser</span><span class="sep"></span>
+          <span>Giant</span><span class="sep"></span>
+          <img src="/images/brands/06-powelldd.png" alt="Powell" loading="lazy" width="600" height="240">
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -353,6 +399,13 @@
       }
     });
   }, {threshold:0.4});
+  // Duplicate brand list for seamless infinite marquee
+  const brandTrack = document.getElementById('brandTrack');
+  if(brandTrack){
+    const clone = brandTrack.innerHTML;
+    brandTrack.innerHTML = clone + clone;
+  }
+
   counters.forEach(el=>countIO.observe(el));
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
