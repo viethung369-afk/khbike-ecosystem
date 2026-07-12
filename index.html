@@ -20,6 +20,7 @@
     --signal-dim:#E3E8FB;
     --line:rgba(25,26,23,0.09);
     --line-strong:rgba(25,26,23,0.18);
+    --ease:cubic-bezier(.16,.84,.44,1);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -59,11 +60,20 @@
   .chapter-group{position:relative; padding-left:60px;}
   .chapter-group::before{
     content:''; position:absolute; left:22px; top:0; bottom:0; width:1.5px;
-    background:var(--rail, var(--line-strong));
+    background:var(--line);
   }
-  .chapter-group.tone-neutral{--rail:var(--line-strong);}
+  .chapter-group .rail-fill{
+    position:absolute; left:22px; top:0; width:1.5px; height:0%;
+    background:var(--rail, var(--ink-faint));
+    transition:height .1s linear;
+  }
+  .chapter-group.tone-neutral{--rail:var(--ink-faint);}
   .chapter-group.tone-signal{--rail:var(--signal);}
-  @media(max-width:640px){ .chapter-group{padding-left:40px;} .chapter-group::before{left:14px;} }
+  @media(max-width:640px){
+    .chapter-group{padding-left:40px;}
+    .chapter-group::before, .chapter-group .rail-fill{left:14px;}
+  }
+  @media(prefers-reduced-motion: reduce){ .chapter-group .rail-fill{height:100% !important; transition:none;} }
 
   .chapter{position:relative; padding:54px 0; max-width:640px;}
   .chapter .pin{
@@ -150,8 +160,19 @@
   footer{border-top:1px solid var(--line); padding:34px 0; font-size:13px; color:var(--ink-faint);}
   footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
 
-  [data-reveal]{opacity:0; transform:translateY(30px); will-change:opacity, transform;}
-  @media(prefers-reduced-motion: reduce){ [data-reveal]{opacity:1 !important; transform:none !important;} }
+  [data-reveal]{opacity:0; transform:translateY(22px); transition:opacity .8s var(--ease), transform .8s var(--ease); transition-delay:var(--stagger, 0ms);}
+  [data-reveal].in{opacity:1; transform:translateY(0);}
+  @media(prefers-reduced-motion: reduce){
+    [data-reveal]{transition:none; opacity:1; transform:none;}
+  }
+
+  /* HERO parallax layer */
+  .hero .wrap{will-change:transform;}
+
+  /* PILLAR entrance stagger (children of .pillars) */
+  .pillars .pillar{opacity:0; transform:translateY(26px) scale(.98); transition:opacity .75s var(--ease), transform .75s var(--ease), border-color .25s ease, translate .25s ease; transition-delay:var(--stagger,0ms);}
+  .pillars.in .pillar{opacity:1; transform:translateY(0) scale(1);}
+  @media(prefers-reduced-motion: reduce){ .pillars .pillar{opacity:1; transform:none; transition:border-color .25s ease;} }
 </style>
 </head>
 <body>
@@ -181,6 +202,7 @@
 <div class="story wrap" id="origin">
 
   <div class="chapter-group tone-neutral">
+    <div class="rail-fill"></div>
     <div class="chapter" data-reveal>
       <div class="pin"></div>
       <div class="yr">2006</div>
@@ -201,6 +223,7 @@
   </div>
 
   <div class="chapter-group tone-signal">
+    <div class="rail-fill"></div>
     <div class="chapter turning" data-reveal>
       <div class="pin big"></div>
       <div class="badge">Bước ngoặt</div>
@@ -229,7 +252,7 @@
       </div>
       <div class="bar"></div>
     </div>
-    <div class="pillars" data-reveal>
+    <div class="pillars">
       <div class="pillar">
         <div class="pin2"></div>
         <div class="media">
@@ -304,36 +327,11 @@
 </footer>
 
 <script>
-  const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let ticking = false;
-
-  function updateReveals(){
-    ticking = false;
-    const vh = window.innerHeight;
-    const startLine = vh * 0.92;
-    const endLine = vh * 0.55;
-    revealEls.forEach(el=>{
-      const rect = el.getBoundingClientRect();
-      let p = (startLine - rect.top) / (startLine - endLine);
-      p = Math.min(Math.max(p, 0), 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.style.opacity = eased;
-      el.style.transform = 'translateY(' + ((1 - eased) * 30) + 'px)';
-    });
-  }
-
-  function onScroll(){
-    if(!ticking){ ticking = true; requestAnimationFrame(updateReveals); }
-  }
-
-  if(reduceMotion){
-    revealEls.forEach(el=>{ el.style.opacity = 1; el.style.transform = 'none'; });
-  } else {
-    updateReveals();
-    window.addEventListener('scroll', onScroll, {passive:true});
-    window.addEventListener('resize', onScroll);
-  }
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const revealIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealIO.unobserve(e.target); } });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>revealIO.observe(el));
 
   const counters = document.querySelectorAll('.counter');
   const countIO = new IntersectionObserver((entries)=>{
@@ -356,6 +354,63 @@
     });
   }, {threshold:0.4});
   counters.forEach(el=>countIO.observe(el));
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Stagger reveal for pillar cards
+  const pillarsEl = document.querySelector('.pillars');
+  if(pillarsEl){
+    const pillarCards = pillarsEl.querySelectorAll('.pillar');
+    pillarCards.forEach((el,i)=>{ el.style.setProperty('--stagger', (i*90)+'ms'); });
+    const pillarsIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ pillarsEl.classList.add('in'); pillarsIO.unobserve(pillarsEl); }
+      });
+    }, {threshold:0.15});
+    pillarsIO.observe(pillarsEl);
+  }
+
+  // Draw spine line progressively as each chapter-group scrolls through view
+  const railGroups = Array.from(document.querySelectorAll('.chapter-group')).map(group=>({
+    group, fill: group.querySelector('.rail-fill')
+  })).filter(r=>r.fill);
+
+  function updateRails(){
+    const vh = window.innerHeight;
+    railGroups.forEach(({group, fill})=>{
+      const rect = group.getBoundingClientRect();
+      const total = rect.height || 1;
+      // progress: how far the viewport midline has moved through the group
+      const raw = (vh*0.75 - rect.top) / total;
+      const progress = Math.max(0, Math.min(1, raw));
+      fill.style.height = (progress*100)+'%';
+    });
+  }
+
+  // Subtle hero parallax
+  const heroWrap = document.querySelector('.hero .wrap');
+  function updateParallax(){
+    if(reduceMotion || !heroWrap) return;
+    const y = window.scrollY;
+    if(y < window.innerHeight){
+      heroWrap.style.transform = `translateY(${y*0.12}px)`;
+      heroWrap.style.opacity = String(Math.max(0, 1 - y/500));
+    }
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if(!ticking){
+      requestAnimationFrame(()=>{ updateRails(); updateParallax(); ticking = false; });
+      ticking = true;
+    }
+  }
+  if(reduceMotion){
+    railGroups.forEach(({fill})=> fill.style.height = '100%');
+  } else {
+    window.addEventListener('scroll', onScroll, {passive:true});
+    updateRails();
+  }
 </script>
 
 </body>
