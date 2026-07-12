@@ -150,8 +150,8 @@
   footer{border-top:1px solid var(--line); padding:34px 0; font-size:13px; color:var(--ink-faint);}
   footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
 
-  [data-reveal]{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease;}
-  [data-reveal].in{opacity:1; transform:translateY(0);}
+  [data-reveal]{opacity:0; transform:translateY(30px); will-change:opacity, transform;}
+  @media(prefers-reduced-motion: reduce){ [data-reveal]{opacity:1 !important; transform:none !important;} }
 </style>
 </head>
 <body>
@@ -304,11 +304,36 @@
 </footer>
 
 <script>
-  const revealEls = document.querySelectorAll('[data-reveal]');
-  const revealIO = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealIO.unobserve(e.target); } });
-  }, {threshold:0.15});
-  revealEls.forEach(el=>revealIO.observe(el));
+  const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ticking = false;
+
+  function updateReveals(){
+    ticking = false;
+    const vh = window.innerHeight;
+    const startLine = vh * 0.92;
+    const endLine = vh * 0.55;
+    revealEls.forEach(el=>{
+      const rect = el.getBoundingClientRect();
+      let p = (startLine - rect.top) / (startLine - endLine);
+      p = Math.min(Math.max(p, 0), 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.style.opacity = eased;
+      el.style.transform = 'translateY(' + ((1 - eased) * 30) + 'px)';
+    });
+  }
+
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(updateReveals); }
+  }
+
+  if(reduceMotion){
+    revealEls.forEach(el=>{ el.style.opacity = 1; el.style.transform = 'none'; });
+  } else {
+    updateReveals();
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll);
+  }
 
   const counters = document.querySelectorAll('.counter');
   const countIO = new IntersectionObserver((entries)=>{
