@@ -190,6 +190,30 @@
   footer{border-top:1px solid var(--line); padding:34px 0; font-size:13px; color:var(--ink-faint);}
   footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
 
+  /* SHOWROOM DIRECTORY */
+  section.showroom{padding:20px 0 90px;}
+  .showroom-head{max-width:600px; margin:0 auto 44px; text-align:center;}
+  .showroom-head .eyebrow{font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--signal); font-weight:600; margin-bottom:14px;}
+  .showroom-head h2{font-size:clamp(24px,3.2vw,30px); font-weight:500; letter-spacing:-0.01em;}
+  .showroom-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:720px){ .showroom-grid{grid-template-columns:1fr;} }
+  .showroom-card{
+    display:flex; flex-direction:column; gap:10px; padding:20px 22px; background:var(--card);
+    border:1px solid var(--line); border-radius:14px; transition:border-color .25s ease, transform .25s ease;
+  }
+  .showroom-card:hover{border-color:var(--line-strong); transform:translateY(-2px);}
+  .showroom-tag{
+    align-self:flex-start; font-size:11px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase;
+    padding:4px 10px; border-radius:100px;
+  }
+  .showroom-tag.vinfast{background:var(--signal-dim); color:var(--signal);}
+  .showroom-tag.tonghop{background:var(--bronze-dim); color:var(--bronze);}
+  .showroom-tag.dichvu{background:rgba(25,26,23,0.06); color:var(--ink-soft);}
+  .showroom-card p{font-size:14.5px; color:var(--ink); line-height:1.5;}
+  .showroom-card a.map-link{font-size:12.5px; font-weight:600; color:var(--ink-faint); display:inline-flex; align-items:center; gap:5px;}
+  .showroom-card a.map-link:hover{color:var(--signal);}
+  .showroom-note{max-width:600px; margin:34px auto 0; text-align:center; font-size:12.5px; color:var(--ink-faint);}
+
   [data-reveal]{opacity:0; transform:translateY(22px); transition:opacity .8s var(--ease), transform .8s var(--ease); transition-delay:var(--stagger, 0ms);}
   [data-reveal].in{opacity:1; transform:translateY(0);}
   @media(prefers-reduced-motion: reduce){
@@ -214,7 +238,7 @@
       <a href="#origin">Câu chuyện</a>
       <a href="#ecosystem">Hệ sinh thái</a>
       <a href="#">Sản phẩm</a>
-      <a href="#">Showroom</a>
+      <a href="#showroom">Showroom</a>
     </div>
     <a href="#" class="navcta">Liên hệ</a>
   </div>
@@ -224,7 +248,7 @@
   <div class="wrap">
     <div class="hero-eyebrow">Từ 2006 — đến hệ sinh thái xe điện hôm nay</div>
     <h1>Một <b>hệ sinh thái</b>, bắt đầu từ một <b>cửa hàng nhỏ</b></h1>
-    <p>18 năm, một sợi chỉ xuyên suốt — từ chiếc xe đạp đầu tiên đến bốn mảng kinh doanh của hôm nay.</p>
+    <p>20 năm, một sợi chỉ xuyên suốt — từ chiếc xe đạp đầu tiên đến bốn mảng kinh doanh của hôm nay.</p>
     <div class="hero-origin-dot" data-reveal></div>
     <div class="brand-marquee" data-reveal>
       <div class="brand-track" id="brandTrack">
@@ -356,11 +380,72 @@
   <div class="converge"><div class="stem"></div><div class="end"></div></div>
 </div>
 
+<section class="showroom" id="showroom">
+  <div class="wrap">
+    <div class="showroom-head" data-reveal>
+      <div class="eyebrow">Hệ thống showroom</div>
+      <h2>10 điểm hiện diện, khắp Bình Dương — TP.HCM — Bình Phước.</h2>
+    </div>
+    <div class="showroom-grid" data-reveal>
+      <div class="showroom-card">
+        <span class="showroom-tag tonghop">Showroom Tổng Hợp</span>
+        <p>66/2M Trần Hưng Đạo, KP. Đông A, P. Đông Hòa, TP. Dĩ An, Bình Dương.</p>
+        <a class="map-link" href="https://goo.gl/maps/EnPWTGj1rLiNwnef9" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag tonghop">Showroom Tổng Hợp</span>
+        <p>94 Nguyễn An Ninh, KP. Bình Minh 2, TP. Dĩ An, Bình Dương.</p>
+        <a class="map-link" href="https://maps.app.goo.gl/R8B79ZVGmCWSpnYT8" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag vinfast">Showroom VinFast</span>
+        <p>63 Lý Thường Kiệt, KP. Thắng Lợi 2, P. Dĩ An, TP. Dĩ An, Bình Dương.</p>
+        <a class="map-link" href="https://maps.app.goo.gl/tdwCBf2psVazwAa6A" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag tonghop">Showroom Tổng Hợp</span>
+        <p>83/1 KP. Đồng An 3, P. Bình Hòa, TP. Thuận An, Bình Dương.</p>
+        <a class="map-link" href="https://goo.gl/maps/6hsvx21AvGHEhJAV9" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag vinfast">Showroom VinFast &amp; Tổng Hợp</span>
+        <p>1/108A Quốc lộ 13, P. Thuận Giao, TP. Thuận An, Bình Dương.</p>
+        <a class="map-link" href="https://goo.gl/maps/CoGun26SpJANvWku5" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag vinfast">Showroom VinFast</span>
+        <p>3/352 KP Hoà Lân 1, P. Thuận Giao, TP. Thuận An, Bình Dương.</p>
+        <a class="map-link" href="https://maps.app.goo.gl/Qrte9Fy3Fwr4EZwL9" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag vinfast">Showroom VinFast</span>
+        <p>337 Đỗ Xuân Hợp, Phước Long B, Quận 9, Hồ Chí Minh.</p>
+        <a class="map-link" href="https://maps.app.goo.gl/Ep5j5rv2nVYsgBhX7" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag vinfast">Showroom VinFast</span>
+        <p>336 Phú Riềng Đỏ, P. Tân Bình, TP. Đồng Xoài, Bình Phước.</p>
+        <a class="map-link" href="https://maps.app.goo.gl/gSKDb1WCSchepqfW6" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag dichvu">Xưởng Dịch Vụ</span>
+        <p>15 Đ. Liên Phường, Phước Long B, Quận 9, TP. Hồ Chí Minh.</p>
+        <a class="map-link" href="https://maps.app.goo.gl/QERVCAu8AXzSh5ce9" target="_blank" rel="noopener">Chỉ đường trên Google Maps ↗</a>
+      </div>
+      <div class="showroom-card">
+        <span class="showroom-tag dichvu">Xưởng Dịch Vụ Hoá An</span>
+        <p>64B Đ. Huỳnh Mẫn Đạt, P. Hóa An, TP. Biên Hòa, Đồng Nai.</p>
+      </div>
+    </div>
+    <p class="showroom-note">Danh sách còn cập nhật thêm theo thông tin từ website và các địa chỉ mới.</p>
+  </div>
+</section>
+
 <section class="cta">
   <div class="wrap">
     <div data-reveal>
       <h2>Từ một điểm khởi đầu, đến một lời mời duy nhất — ghé thăm showroom gần bạn.</h2>
-      <a href="#" class="btn-primary">Tìm showroom →</a>
+      <a href="#showroom" class="btn-primary">Tìm showroom →</a>
     </div>
   </div>
 </section>
