@@ -156,7 +156,7 @@
   .pillars{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px;}
   @media(max-width:900px){ .pillars{grid-template-columns:1fr 1fr;} }
   @media(max-width:560px){ .pillars{grid-template-columns:1fr;} }
-  .pillar{background:var(--card); padding:0 0 26px; position:relative; border:1px solid var(--line); border-radius:16px; overflow:hidden; transition:border-color .25s ease, transform .25s ease;}
+  .pillar{display:block; background:var(--card); padding:0 0 26px; position:relative; border:1px solid var(--line); border-radius:16px; overflow:hidden; transition:border-color .25s ease, transform .25s ease;}
   .pillar:hover{border-color:var(--line-strong); transform:translateY(-3px);}
   .pillar .pin2{position:absolute; top:14px; left:24px; width:7px; height:7px; border-radius:50%; background:var(--signal); z-index:2;}
   @media(max-width:900px){ .pin2{display:none;} }
@@ -324,7 +324,7 @@
       <div class="bar"></div>
     </div>
     <div class="pillars">
-      <div class="pillar">
+      <a class="pillar" href="https://khbike.com.vn/" target="_blank" rel="noopener">
         <div class="pin2"></div>
         <div class="media">
           <img src="/images/xe-tong-hop.webp" alt="Cửa hàng Osakar Khánh Huyền" loading="lazy" width="900" height="591">
@@ -335,8 +335,8 @@
           <p>Đa thương hiệu xe đạp &amp; xe đạp điện: Asama, DK Bike, Osakar, Martin, Giant.</p>
           <div class="meta">6 thương hiệu →</div>
         </div>
-      </div>
-      <div class="pillar">
+      </a>
+      <a class="pillar" href="https://vinfastkhanhhuyenquoclo13.vercel.app/" target="_blank" rel="noopener">
         <div class="pin2"></div>
         <div class="media">
           <img src="/images/showroom-vinfast.webp" alt="Showroom VinFast Khánh Huyền" loading="lazy" width="900" height="676">
@@ -347,7 +347,7 @@
           <p>Đại lý ủy quyền xe máy điện VinFast tại Quốc Lộ 13 — tư vấn, trải nghiệm, giao xe.</p>
           <div class="meta">Đại lý chính hãng →</div>
         </div>
-      </div>
+      </a>
       <div class="pillar">
         <div class="pin2"></div>
         <div class="media">
@@ -360,7 +360,7 @@
           <div class="meta">Chuẩn kỹ thuật VinFast →</div>
         </div>
       </div>
-      <div class="pillar">
+      <a class="pillar" href="https://www.klotus.vn/" target="_blank" rel="noopener">
         <div class="pin2"></div>
         <div class="media placeholder">
           <div class="ph-icon"></div>
@@ -372,7 +372,7 @@
           <p>Thương hiệu K LOTUS tự sản xuất, lắp ráp — làm chủ chuỗi cung ứng.</p>
           <div class="meta">Tự chủ sản xuất →</div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
