@@ -210,6 +210,17 @@
   }
   .showroom-note{max-width:560px; margin:18px auto 0; text-align:center; font-size:11px; color:var(--ink-faint);}
 
+  /* SHOWROOM CASCADE — mỗi card trượt vào theo thứ tự khi grid vào viewport */
+  .showroom-grid .showroom-card{
+    opacity:0; transform:translateX(-16px);
+    transition:opacity .55s var(--ease), transform .55s var(--ease), border-color .25s ease;
+    transition-delay:var(--stagger, 0ms);
+  }
+  .showroom-grid.in .showroom-card{opacity:1; transform:translateX(0);}
+  @media(prefers-reduced-motion: reduce){
+    .showroom-grid .showroom-card{opacity:1; transform:none; transition:border-color .25s ease;}
+  }
+
   [data-reveal]{opacity:0; transform:translateY(22px); transition:opacity .8s var(--ease), transform .8s var(--ease); transition-delay:var(--stagger, 0ms);}
   [data-reveal].in{opacity:1; transform:translateY(0);}
   @media(prefers-reduced-motion: reduce){
@@ -391,7 +402,7 @@
       <div class="eyebrow">Hệ thống showroom</div>
       <h2>11 điểm hiện diện, khắp Bình Dương — TP.HCM — Bình Phước.</h2>
     </div>
-    <div class="showroom-group" data-reveal>
+    <div class="showroom-group">
       <div class="showroom-group-title">Showroom Tổng Hợp</div>
       <div class="showroom-grid">
         <div class="showroom-card">
@@ -409,7 +420,7 @@
       </div>
     </div>
 
-    <div class="showroom-group" data-reveal>
+    <div class="showroom-group">
       <div class="showroom-group-title">Showroom VinFast &amp; Tổng Hợp</div>
       <div class="showroom-grid">
         <div class="showroom-card">
@@ -435,7 +446,7 @@
       </div>
     </div>
 
-    <div class="showroom-group" data-reveal>
+    <div class="showroom-group">
       <div class="showroom-group-title">Xưởng Dịch Vụ</div>
       <div class="showroom-grid">
         <div class="showroom-card">
@@ -513,6 +524,19 @@
     }, {threshold:0.15});
     pillarsIO.observe(pillarsEl);
   }
+
+  // Showroom directory — each group's cards trượt vào theo thứ tự khi cuộn tới
+  // (bấm nút "Tìm showroom" sẽ smooth-scroll xuống đây rồi hiệu ứng tự chạy)
+  document.querySelectorAll('.showroom-grid').forEach(grid=>{
+    const cards = grid.querySelectorAll('.showroom-card');
+    cards.forEach((el,i)=>{ el.style.setProperty('--stagger', (i*80)+'ms'); });
+    const gridIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ grid.classList.add('in'); gridIO.unobserve(grid); }
+      });
+    }, {threshold:0.12});
+    gridIO.observe(grid);
+  });
 
   // Draw spine line progressively as each chapter-group scrolls through view
   const railGroups = Array.from(document.querySelectorAll('.chapter-group')).map(group=>({
